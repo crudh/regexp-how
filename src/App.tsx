@@ -6,6 +6,16 @@ const NUMBER_OF_EXAMPLES = 5;
 const errorMessage = (error: unknown, defaultMessage = "Error") =>
   error instanceof Error ? error.message : defaultMessage;
 
+const useRegexp = (regexpString: string): [RegExp?, string?] => {
+  return useMemo(() => {
+    try {
+      return [new RegExp(regexpString, "g"), undefined];
+    } catch (error: unknown) {
+      return [undefined, errorMessage(error)];
+    }
+  }, [regexpString]);
+};
+
 const useExamples = (regexp: RegExp | undefined): string[] => {
   return useMemo(() => {
     if (regexp === undefined) return [];
@@ -47,19 +57,7 @@ const Examples: FC<{ regexp: RegExp | undefined }> = ({ regexp }) => {
 
 const App = () => {
   const [regexpInput, setRegexpInput] = useState("");
-  const [error, setError] = useState<string | undefined>();
-
-  const regexp = useMemo(() => {
-    setError(undefined);
-
-    try {
-      return new RegExp(regexpInput, "g");
-    } catch (error: unknown) {
-      setError(errorMessage(error));
-    }
-
-    return undefined;
-  }, [regexpInput]);
+  const [regexp, error] = useRegexp(regexpInput);
 
   return (
     <div className="min-h-screen main">
