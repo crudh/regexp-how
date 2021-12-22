@@ -37,7 +37,29 @@ const SectionHeader: FC = ({ children }) => (
   <h2 className="pb-2">{children}</h2>
 );
 
-const Examples: FC<{ regexp: RegExp | undefined }> = ({ regexp }) => {
+const RegexpInput: FC<{
+  input: string;
+  error: string | undefined;
+  onChange: (input: string) => void;
+}> = ({ input, error, onChange }) => {
+  return (
+    <Section>
+      <SectionHeader>Regular expression</SectionHeader>
+      <div className="flex flex-col justify-center">
+        <input
+          className={`w-full text-xl p-2 rounded-md ${
+            error ? "bg-red-500" : ""
+          }`}
+          value={input}
+          onChange={(e) => onChange(e.target.value)}
+        />
+        <div>{error ?? null}</div>
+      </div>
+    </Section>
+  );
+};
+
+const RegexpExamples: FC<{ regexp: RegExp | undefined }> = ({ regexp }) => {
   const examples = useExamples(regexp);
   if (examples.length === 0) return null;
 
@@ -55,6 +77,20 @@ const Examples: FC<{ regexp: RegExp | undefined }> = ({ regexp }) => {
   );
 };
 
+const RegexpMatchText: FC = () => {
+  return null;
+
+  // return (
+  //   <Section>
+  //     <SectionHeader>Text to match</SectionHeader>
+  //     <div
+  //       contentEditable={true}
+  //       className="p-2 text-xl text-black bg-white rounded-md"
+  //     ></div>
+  //   </Section>
+  // );
+};
+
 const App = () => {
   const [regexpInput, setRegexpInput] = useState("");
   const [regexp, error] = useRegexp(regexpInput);
@@ -65,27 +101,13 @@ const App = () => {
         <PageHeader>regexp.how</PageHeader>
       </div>
       <div className="flex flex-col p-10">
-        <Section>
-          <SectionHeader>Regular expression</SectionHeader>
-          <div className="flex flex-col justify-center">
-            <input
-              className={`w-full text-xl p-2 rounded-md ${
-                error ? "bg-red-500" : ""
-              }`}
-              value={regexpInput}
-              onChange={(e) => setRegexpInput(e.target.value)}
-            />
-            <div>{error ?? null}</div>
-          </div>
-        </Section>
-        {/* <Section>
-          <SectionHeader>Text to match</SectionHeader>
-          <div
-            contentEditable={true}
-            className="p-2 text-xl text-black bg-white rounded-md"
-          ></div>
-        </Section> */}
-        <Examples regexp={regexp} />
+        <RegexpInput
+          input={regexpInput}
+          error={error}
+          onChange={setRegexpInput}
+        />
+        <RegexpMatchText />
+        <RegexpExamples regexp={regexp} />
       </div>
     </div>
   );
