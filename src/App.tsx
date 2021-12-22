@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 import Randexp from "randexp";
 
 const NUMBER_OF_EXAMPLES = 5;
@@ -6,10 +6,10 @@ const NUMBER_OF_EXAMPLES = 5;
 const errorMessage = (error: unknown, defaultMessage = "Error") =>
   error instanceof Error ? error.message : defaultMessage;
 
-const useRegexp = (regexpString: string): [RegExp?, string?] => {
+const useRegexp = (regexpString: string, flags: string): [RegExp?, string?] => {
   return useMemo(() => {
     try {
-      return [new RegExp(regexpString, "g"), undefined];
+      return [new RegExp(regexpString, flags), undefined];
     } catch (error: unknown) {
       return [undefined, errorMessage(error)];
     }
@@ -38,22 +38,32 @@ const SectionHeader: FC = ({ children }) => (
 );
 
 const RegexpInput: FC<{
-  input: string;
+  regexpFlags: string;
   error: string | undefined;
   onChange: (input: string) => void;
-}> = ({ input, error, onChange }) => {
+}> = ({ regexpFlags, error, onChange }) => {
+  const inputEl = useRef<HTMLSpanElement | null>(null);
+
   return (
     <Section>
       <SectionHeader>Regular expression</SectionHeader>
       <div className="flex flex-col justify-center">
-        <input
-          className={`w-full text-xl p-2 rounded-md ${
-            error ? "bg-red-500" : ""
+        <div
+          className={`flex bg-white border-2 p-2 rounded-md text-xl ${
+            error ? "border-red-500" : ""
           }`}
-          value={input}
-          onChange={(e) => onChange(e.target.value)}
-        />
-        <div>{error ?? null}</div>
+          onClick={() => inputEl.current?.focus()}
+        >
+          <div className="pr-1 font-bold text-gray-400">/</div>
+          <span
+            className="text-black bg-white outline-none min-w-[10px]"
+            ref={inputEl}
+            onInput={(e) => onChange(e.currentTarget.textContent ?? "")}
+            contentEditable
+          />
+          <div className="pl-1 font-bold text-gray-400">/{regexpFlags}</div>
+        </div>
+        <div className="pt-1">{error ?? null}</div>
       </div>
     </Section>
   );
@@ -92,8 +102,9 @@ const RegexpMatchText: FC = () => {
 };
 
 const App = () => {
+  const regexpFlags = "g";
   const [regexpInput, setRegexpInput] = useState("");
-  const [regexp, error] = useRegexp(regexpInput);
+  const [regexp, error] = useRegexp(regexpInput, regexpFlags);
 
   return (
     <div className="min-h-screen main">
@@ -102,7 +113,7 @@ const App = () => {
       </div>
       <div className="flex flex-col p-10">
         <RegexpInput
-          input={regexpInput}
+          regexpFlags={regexpFlags}
           error={error}
           onChange={setRegexpInput}
         />
