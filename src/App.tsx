@@ -1,4 +1,4 @@
-import { FC, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import Randexp from "randexp";
 
 const NUMBER_OF_EXAMPLES = 5;
@@ -46,6 +46,10 @@ const RegexpInput: FC<{
   onChange: (input: string) => void;
 }> = ({ regexpFlags, error, onChange }) => {
   const inputEl = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    inputEl?.current?.focus();
+  }, []);
 
   return (
     <Section>
