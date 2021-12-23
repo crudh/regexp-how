@@ -23,7 +23,10 @@ const useExamples = (regexp: RegExp | undefined): string[] => {
     return Array(NUMBER_OF_EXAMPLES)
       .fill("")
       .map(() => new Randexp(regexp).gen())
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter(
+        (example, index, exampleList) => exampleList.indexOf(example) === index
+      );
   }, [regexp]);
 };
 
