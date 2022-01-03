@@ -80,7 +80,7 @@ const RegexpInput: FC<{
               className="pl-3 pr-3 font-bold text-black bg-gray-300 active:bg-gray-200 disabled:text-gray-400 rounded-r-md"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  inputEl.current?.textContent ?? ""
+                  `/${inputEl.current?.textContent ?? ""}/${regexpFlags}`
                 );
               }}
             >
