@@ -62,14 +62,14 @@ const RegexpInput: FC<{
             }`}
             onClick={() => inputEl.current?.focus()}
           >
-            <div className="pr-1 font-bold text-gray-400">/</div>
+            <div className="pr-1 font-bold text-gray-500">/</div>
             <span
               className="text-black bg-white outline-none min-w-[10px] break-all"
               ref={inputEl}
               onInput={(e) => onChange(e.currentTarget.textContent ?? "")}
               contentEditable
             />
-            <div className="flex items-end pl-1 font-bold text-gray-400">
+            <div className="flex items-end pl-1 font-bold text-gray-500">
               /{regexpFlags}
             </div>
           </div>
