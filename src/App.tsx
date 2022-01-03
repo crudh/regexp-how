@@ -64,12 +64,14 @@ const RegexpInput: FC<{
           >
             <div className="pr-1 font-bold text-gray-400">/</div>
             <span
-              className="text-black bg-white outline-none min-w-[10px]"
+              className="text-black bg-white outline-none min-w-[10px] break-all"
               ref={inputEl}
               onInput={(e) => onChange(e.currentTarget.textContent ?? "")}
               contentEditable
             />
-            <div className="pl-1 font-bold text-gray-400">/{regexpFlags}</div>
+            <div className="flex items-end pl-1 font-bold text-gray-400">
+              /{regexpFlags}
+            </div>
           </div>
           <div className="flex">
             <button
@@ -102,7 +104,9 @@ const RegexpExamples: FC<{ regexp: RegExp | undefined }> = ({ regexp }) => {
       <div className="p-2 border-2 rounded-md">
         <ul className="list-disc list-inside">
           {examples.map((example, index) => (
-            <li key={index}>{example}</li>
+            <li key={index} className="break-all">
+              {example}
+            </li>
           ))}
         </ul>
       </div>
@@ -172,7 +176,7 @@ const RegexpMatchText: FC<{ text: string; regexp: RegExp | undefined }> = ({
         Matched text
         {text.length > 0 && regexp && !anyMatches ? " - Nothing matched!" : ""}
       </SectionHeader>
-      <div className="p-2 text-xl text-black break-all bg-gray-300 rounded-md">
+      <div className="p-2 text-xl text-black break-all bg-gray-300 rounded-md min-h-[44px]">
         {results.map((result, index) => (
           <span key={index} className={result.match ? "bg-yellow-300" : ""}>
             {result.value}
@@ -196,7 +200,7 @@ const App = () => {
       <div className="flex justify-center">
         <PageHeader>regexp.how</PageHeader>
       </div>
-      <div className="flex flex-col p-10">
+      <div className="flex flex-col p-2 md:p-8">
         <RegexpInput
           regexpFlags={regexpFlags}
           error={error}
