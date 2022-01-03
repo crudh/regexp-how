@@ -34,7 +34,7 @@ const PageHeader: FC = ({ children }) => (
   <h1 className="pt-6 text-3xl font-bold">{children}</h1>
 );
 
-const Section: FC = ({ children }) => <div className="pb-6">{children}</div>;
+const Section: FC = ({ children }) => <div className="p-3">{children}</div>;
 
 const SectionHeader: FC = ({ children }) => (
   <h2 className="pb-2">{children}</h2>
@@ -110,24 +110,86 @@ const RegexpExamples: FC<{ regexp: RegExp | undefined }> = ({ regexp }) => {
   );
 };
 
-const RegexpMatchText: FC = () => {
-  return null;
+const RegexpMatchTextInput: FC<{ onChange: (input: string) => void }> = ({
+  onChange,
+}) => {
+  return (
+    <Section>
+      <SectionHeader>Text to match</SectionHeader>
+      <div
+        className="p-2 text-xl text-black break-all bg-white rounded-md"
+        onInput={(e) => onChange(e.currentTarget.innerText)}
+        contentEditable
+      ></div>
+    </Section>
+  );
+};
 
-  // return (
-  //   <Section>
-  //     <SectionHeader>Text to match</SectionHeader>
-  //     <div
-  //       contentEditable={true}
-  //       className="p-2 text-xl text-black bg-white rounded-md"
-  //     ></div>
-  //   </Section>
-  // );
+type Result = {
+  value: string;
+  match: boolean;
+};
+
+const RegexpMatchText: FC<{ text: string; regexp: RegExp | undefined }> = ({
+  text,
+  regexp,
+}) => {
+  const results = useMemo(() => {
+    if (!regexp) return [];
+
+    const matches = Array.from(text.matchAll(regexp))
+      .filter((match) => match[0] !== "" && match.index !== undefined)
+      .map((match) => ({
+        value: match[0],
+        index: match.index as number,
+      }));
+
+    const tmpResult: Result[] = [];
+    let prevIndex = 0;
+    for (const { value, index } of matches) {
+      if (index > prevIndex) {
+        tmpResult.push({ value: text.slice(prevIndex, index), match: false });
+      }
+
+      tmpResult.push({ value, match: true });
+      prevIndex = index + value.length;
+    }
+    if (prevIndex < text.length) {
+      tmpResult.push({ value: text.slice(prevIndex), match: false });
+    }
+
+    return tmpResult;
+  }, [text, regexp]);
+
+  const anyMatches = useMemo(
+    () => results.find((result) => result.match),
+    [results]
+  );
+
+  return (
+    <Section>
+      <SectionHeader>
+        Matched text
+        {text.length > 0 && regexp && !anyMatches ? " - Nothing matched!" : ""}
+      </SectionHeader>
+      <div className="p-2 text-xl text-black break-all bg-gray-300 rounded-md">
+        {results.map((result, index) => (
+          <span key={index} className={result.match ? "bg-yellow-300" : ""}>
+            {result.value}
+          </span>
+        ))}
+      </div>
+    </Section>
+  );
 };
 
 const App = () => {
   const regexpFlags = "g";
+
   const [regexpInput, setRegexpInput] = useState("");
   const [regexp, error] = useRegexp(regexpInput, regexpFlags);
+
+  const [text, setText] = useState("");
 
   return (
     <div className="min-h-screen main">
@@ -140,7 +202,14 @@ const App = () => {
           error={error}
           onChange={setRegexpInput}
         />
-        <RegexpMatchText />
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full">
+            <RegexpMatchTextInput onChange={setText} />
+          </div>
+          <div className="w-full">
+            <RegexpMatchText text={text} regexp={regexp} />
+          </div>
+        </div>
         <RegexpExamples regexp={regexp} />
       </div>
     </div>
