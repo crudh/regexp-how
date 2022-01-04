@@ -13,25 +13,67 @@ export const useMatchTextEntries = (
       .map((match) => ({
         text: match[0],
         index: match.index as number,
-      }));
+      }))
+      .reverse();
 
     const entries: MatchTextEntry[] = [];
-    let prevIndex = 0;
-    for (const match of matches) {
-      if (match.index > prevIndex) {
-        entries.push({
-          text: text.slice(prevIndex, match.index),
-          type: "other",
-        });
+    let currentMatch = matches.pop();
+    let currentText = "";
+    let sequentialNewLineCount = 0;
+
+    let charIndex = 0;
+    for (const char of text) {
+      const isMatchStart = charIndex === currentMatch?.index;
+      const isMatchEnd =
+        currentMatch?.index !== undefined &&
+        currentMatch?.text !== undefined &&
+        charIndex === currentMatch.index + currentMatch.text.length - 1;
+      const isNewLine = char === "\n";
+
+      if (isMatchStart) {
+        if (currentText !== "") {
+          entries.push({ type: "text", text: currentText });
+          currentText = "";
+        }
+
+        entries.push({ type: "matchStart" });
       }
 
-      entries.push({ text: match.text, type: "match" });
-      prevIndex = match.index + match.text.length;
+      if (isNewLine) {
+        sequentialNewLineCount = sequentialNewLineCount + 1;
+
+        if (sequentialNewLineCount > 0 && sequentialNewLineCount % 2 > 0) {
+          if (currentText !== "") {
+            entries.push({ type: "text", text: currentText });
+            currentText = "";
+          }
+
+          entries.push({ type: "newLine" });
+        }
+      } else {
+        sequentialNewLineCount = 0;
+
+        currentText = currentText + char;
+      }
+
+      if (isMatchEnd) {
+        if (currentText !== "") {
+          entries.push({ type: "text", text: currentText });
+          currentText = "";
+        }
+
+        entries.push({ type: "matchEnd" });
+        currentMatch = matches.pop();
+      }
+
+      charIndex = charIndex + 1;
     }
 
-    if (prevIndex < text.length) {
-      entries.push({ text: text.slice(prevIndex), type: "other" });
-    }
+    entries.push(
+      currentText !== ""
+        ? { type: "text", text: currentText }
+        : { type: "newLine" }
+    );
 
     return entries;
   }, [text, regexp]);

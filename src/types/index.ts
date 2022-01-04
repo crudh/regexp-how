@@ -1,4 +1,4 @@
 export type MatchTextEntry = {
-  text: string;
-  type: "match" | "other";
+  type: "matchStart" | "matchEnd" | "newLine" | "text";
+  text?: string;
 };
