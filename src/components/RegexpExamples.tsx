@@ -10,8 +10,8 @@ export const RegexpExamples: FC<{ examples: string[] }> = ({ examples }) => {
       <SectionHeader>Examples</SectionHeader>
       <div className="p-2 border-2 rounded-md">
         <ul className="list-disc list-inside">
-          {examples.map((example, index) => (
-            <li key={index} className="break-all">
+          {examples.map((example) => (
+            <li key={example} className="break-all">
               {example}
             </li>
           ))}
