@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { PageContent } from "./components/PageContent";
+import { PageFooter } from "./components/PageFooter";
 import { PageHeader } from "./components/PageHeader";
 import { RegexpExamples } from "./components/RegexpExamples";
 import { RegexpInput } from "./components/RegexpInput";
@@ -18,11 +20,9 @@ const App = () => {
   const matchTextEntries = useMatchTextEntries(text, regexp);
 
   return (
-    <div className="min-h-screen main">
-      <div className="flex justify-center">
-        <PageHeader>regexp.how</PageHeader>
-      </div>
-      <div className="flex flex-col p-2 md:p-8">
+    <div className="flex flex-col min-h-screen main">
+      <PageHeader>regexp.how</PageHeader>
+      <PageContent>
         <RegexpInput
           regexpFlags={regexpFlags}
           error={error}
@@ -37,7 +37,8 @@ const App = () => {
           </div>
         </div>
         <RegexpExamples examples={examples} />
-      </div>
+      </PageContent>
+      <PageFooter />
     </div>
   );
 };
