@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import Randexp from "randexp";
 
-const MAX_NUMBER_OF_EXAMPLES = 5;
+export const DEFAULT_MAX_NUMBER_OF_EXAMPLES = 5;
 
 export const useRegexpExamples = (
   regexp: RegExp | undefined,
-  maxNumberOfExamples: number = MAX_NUMBER_OF_EXAMPLES
+  maxNumberOfExamples: number = DEFAULT_MAX_NUMBER_OF_EXAMPLES
 ): string[] => {
   return useMemo(() => {
     if (regexp === undefined) return [];
