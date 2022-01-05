@@ -3,13 +3,17 @@ import { MatchTextEntry } from "../types";
 import { Section } from "./Section";
 import { SectionHeader } from "./SectionHeader";
 
-const BlockText: FC = ({ children = "" }) => <span>{children}</span>;
-
-const BlockMatch: FC = ({ children }) => (
-  <span className="bg-yellow-300">{children}</span>
+const BlockText: FC = ({ children = "" }) => (
+  <span className="block-text">{children}</span>
 );
 
-const BlockLine: FC = ({ children }) => <div>{children}&nbsp;</div>;
+const BlockMatch: FC = ({ children }) => (
+  <div className="inline-block bg-yellow-300 block-match">{children}</div>
+);
+
+const BlockLine: FC = ({ children }) => (
+  <div className="block-line">{children}&nbsp;</div>
+);
 
 const MatchText = ({ entries }: { entries: MatchTextEntry[] }) => {
   let isInMatch = false;
@@ -34,6 +38,11 @@ const MatchText = ({ entries }: { entries: MatchTextEntry[] }) => {
         currentMatch = [];
         break;
       case "newLine":
+        if (isInMatch) {
+          currentLine.push(<BlockMatch key={index}>{currentMatch}</BlockMatch>);
+          currentMatch = [];
+        }
+
         lines.push(<BlockLine key={lines.length}>{currentLine}</BlockLine>);
         currentLine = [];
         break;
@@ -47,7 +56,10 @@ const MatchText = ({ entries }: { entries: MatchTextEntry[] }) => {
   }
 
   return (
-    <div className="p-2 text-xl text-black break-all bg-gray-300 rounded-md">
+    <div
+      className="p-2 text-xl text-black break-all bg-gray-300 rounded-md"
+      data-testid="matchText"
+    >
       {lines}
     </div>
   );
