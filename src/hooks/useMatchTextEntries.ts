@@ -20,8 +20,8 @@ export const useMatchTextEntries = (
     let currentMatch = matches.pop();
     let currentText = "";
     let sequentialNewLineCount = 0;
-
     let charIndex = 0;
+
     for (const char of text) {
       const isMatchStart = charIndex === currentMatch?.index;
       const isMatchEnd =
