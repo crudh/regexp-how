@@ -12,7 +12,7 @@ const CheckBox: FC<{
       <input
         type="checkbox"
         id={`flag-checkbox-${flag}`}
-        value={isToggled ? 1 : 0}
+        checked={isToggled}
         onChange={() => onToggle(flag)}
       />
       <label className="pl-1 text-sm" htmlFor={`flag-checkbox-${flag}`}>

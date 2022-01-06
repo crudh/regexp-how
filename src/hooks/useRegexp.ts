@@ -10,7 +10,6 @@ export const useRegexp = (
   flags: Flags
 ): [RegExp?, string?] => {
   return useMemo(() => {
-    console.log(flagsStringFromFlags(flags));
     try {
       return [new RegExp(regexpString, flagsStringFromFlags(flags)), undefined];
     } catch (error: unknown) {
