@@ -17,7 +17,6 @@ const App = () => {
   const [regexpFlags, setRegexpFlags] = useState<Flags>({
     g: true,
     i: false,
-    m: false,
   });
   const [regexp, error] = useRegexp(regexpInput, regexpFlags);
   const examples = useRegexpExamples(regexp);
