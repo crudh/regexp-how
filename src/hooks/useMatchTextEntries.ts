@@ -8,13 +8,17 @@ export const useMatchTextEntries = (
   return useMemo(() => {
     if (!regexp) return [];
 
-    const matches = Array.from(text.matchAll(regexp))
-      .filter((match) => match[0] !== "" && match.index !== undefined)
-      .map((match) => ({
-        text: match[0],
-        index: match.index as number,
-      }))
-      .reverse();
+    const matches = regexp.global
+      ? Array.from(text.matchAll(regexp))
+          .filter((match) => match[0] !== "" && match.index !== undefined)
+          .map((match) => ({
+            text: match[0],
+            index: match.index as number,
+          }))
+          .reverse()
+      : Array.from(text.match(regexp) ?? [])
+          .map((match) => ({ text: match, index: text.indexOf(match) }))
+          .reverse();
 
     const entries: MatchTextEntry[] = [];
     let currentMatch = matches.pop();
