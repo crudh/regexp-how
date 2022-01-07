@@ -42,3 +42,25 @@ test("should work with an normal regexp and ignore case", () => {
   expect(errorMessage).toBeUndefined();
   expect(regexp).toBeDefined();
 });
+
+test("should work with an normal regexp without flags", () => {
+  const { result } = renderHook(() =>
+    useRegexp("\\d{3}", { g: false, i: false })
+  );
+
+  const [regexp, errorMessage] = result.current;
+
+  expect(errorMessage).toBeUndefined();
+  expect(regexp).toBeDefined();
+});
+
+test("should work with an normal regexp with just ignore case flag", () => {
+  const { result } = renderHook(() =>
+    useRegexp("\\d{3}", { g: false, i: true })
+  );
+
+  const [regexp, errorMessage] = result.current;
+
+  expect(errorMessage).toBeUndefined();
+  expect(regexp).toBeDefined();
+});
