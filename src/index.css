@@ -24,3 +24,9 @@ body {
 input {
   color: black;
 }
+
+@layer components {
+  .block-match {
+    @apply inline-block bg-yellow-300;
+  }
+}

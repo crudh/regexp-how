@@ -9,12 +9,15 @@ import { RegexpMatchTextInput } from "./components/RegexpMatchTextInput";
 import { useMatchTextEntries } from "./hooks/useMatchTextEntries";
 import { useRegexp } from "./hooks/useRegexp";
 import { useRegexpExamples } from "./hooks/useRegexpExamples";
+import { Flags } from "./types";
 
 const App = () => {
-  const regexpFlags = "g";
-
   const [text, setText] = useState("");
   const [regexpInput, setRegexpInput] = useState("");
+  const [regexpFlags, setRegexpFlags] = useState<Flags>({
+    g: true,
+    i: false,
+  });
   const [regexp, error] = useRegexp(regexpInput, regexpFlags);
   const examples = useRegexpExamples(regexp);
   const matchTextEntries = useMatchTextEntries(text, regexp);
@@ -27,6 +30,7 @@ const App = () => {
           regexpFlags={regexpFlags}
           error={error}
           onChange={setRegexpInput}
+          onSetFlags={setRegexpFlags}
         />
         <div className="flex flex-col md:flex-row">
           <div className="w-full">

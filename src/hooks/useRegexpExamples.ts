@@ -10,12 +10,14 @@ export const useRegexpExamples = (
   return useMemo(() => {
     if (regexp === undefined) return [];
 
-    return Array(maxNumberOfExamples)
+    const examples = Array(maxNumberOfExamples * 2)
       .fill("")
       .map(() => new Randexp(regexp).gen())
       .filter(
         (example, index, exampleList) =>
           example !== "" && exampleList.indexOf(example) === index
       );
+
+    return examples.slice(0, maxNumberOfExamples);
   }, [regexp]);
 };

@@ -1,17 +1,23 @@
 import { FC, useEffect, useRef } from "react";
+import { flagsStringFromFlags } from "../functions/flags";
+import { Flags } from "../types";
+import { RegexpFlags } from "./RegexpFlags";
 import { Section } from "./Section";
 import { SectionHeader } from "./SectionHeader";
 
 export const RegexpInput: FC<{
-  regexpFlags: string;
+  regexpFlags: Flags;
   error: string | undefined;
   onChange: (input: string) => void;
-}> = ({ regexpFlags, error, onChange }) => {
+  onSetFlags: (flags: Flags) => void;
+}> = ({ regexpFlags, error, onChange, onSetFlags }) => {
   const inputEl = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
     inputEl?.current?.focus();
   }, []);
+
+  const flagsString = flagsStringFromFlags(regexpFlags);
 
   return (
     <Section>
@@ -32,7 +38,7 @@ export const RegexpInput: FC<{
               contentEditable
             />
             <div className="flex items-end pl-1 font-bold text-gray-500">
-              /{regexpFlags}
+              /{flagsString}
             </div>
           </div>
           <div className="flex">
@@ -42,7 +48,7 @@ export const RegexpInput: FC<{
               className="pl-3 pr-3 font-bold text-black bg-gray-300 active:bg-gray-200 disabled:text-gray-400 rounded-r-md"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `/${inputEl.current?.textContent ?? ""}/${regexpFlags}`
+                  `/${inputEl.current?.textContent ?? ""}/${flagsString}`
                 );
               }}
             >
@@ -50,7 +56,8 @@ export const RegexpInput: FC<{
             </button>
           </div>
         </div>
-        <div className="pt-1">{error ?? null}</div>
+        {error && <div className="p-1 mt-2 bg-red-500">{error}</div>}
+        <RegexpFlags flags={regexpFlags} onSetFlags={onSetFlags} />
       </div>
     </Section>
   );
