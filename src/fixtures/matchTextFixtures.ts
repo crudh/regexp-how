@@ -42,7 +42,7 @@ export const matchTextFixtures: Record<
       { type: "matchEnd" },
       { type: "text", text: " asd" },
     ],
-    html: `<div class="block-line"><span class="block-text">asd </span><div class="inline-block bg-yellow-300 block-match"><span class="block-text">xxx</span></div><span class="block-text"> asd</span>&nbsp;</div>`,
+    html: `<div class="block-line"><span class="block-text">asd </span><div class="block-match"><span class="block-text">xxx</span></div><span class="block-text"> asd</span>&nbsp;</div>`,
   },
   entireLineMatch: {
     name: "entire line being a match",
@@ -54,7 +54,7 @@ export const matchTextFixtures: Record<
       { type: "matchEnd" },
       { type: "newLine" },
     ],
-    html: `<div class="block-line"><div class="inline-block bg-yellow-300 block-match"><span class="block-text">asd</span></div>&nbsp;</div>`,
+    html: `<div class="block-line"><div class="block-match"><span class="block-text">asd</span></div>&nbsp;</div>`,
   },
   lineMultipleMatches: {
     name: "line and multiple matches",
@@ -71,7 +71,7 @@ export const matchTextFixtures: Record<
       { type: "matchEnd" },
       { type: "newLine" },
     ],
-    html: `<div class="block-line"><span class="block-text">asd </span><div class="inline-block bg-yellow-300 block-match"><span class="block-text">xxx</span></div><span class="block-text"> asd</span><div class="inline-block bg-yellow-300 block-match"><span class="block-text">xxx</span></div>&nbsp;</div>`,
+    html: `<div class="block-line"><span class="block-text">asd </span><div class="block-match"><span class="block-text">xxx</span></div><span class="block-text"> asd</span><div class="block-match"><span class="block-text">xxx</span></div>&nbsp;</div>`,
   },
   multipleLinesMatch: {
     name: "multiple lines and match",
@@ -91,7 +91,7 @@ ccc`,
       { type: "newLine" },
       { type: "text", text: "ccc" },
     ],
-    html: `<div class="block-line"><span class="block-text">aaa</span>&nbsp;</div><div class="block-line"><span class="block-text">bbb</span>&nbsp;</div><div class="block-line"><div class="inline-block bg-yellow-300 block-match"><span class="block-text">123</span></div>&nbsp;</div><div class="block-line"><span class="block-text">ccc</span>&nbsp;</div>`,
+    html: `<div class="block-line"><span class="block-text">aaa</span>&nbsp;</div><div class="block-line"><span class="block-text">bbb</span>&nbsp;</div><div class="block-line"><div class="block-match"><span class="block-text">123</span></div>&nbsp;</div><div class="block-line"><span class="block-text">ccc</span>&nbsp;</div>`,
   },
   multipleLinesMultipleMatches: {
     name: "multiple lines and multiple matches",
@@ -117,7 +117,7 @@ ccc
       { type: "matchEnd" },
       { type: "newLine" },
     ],
-    html: `<div class="block-line"><span class="block-text">aaa</span>&nbsp;</div><div class="block-line"><span class="block-text">bbb</span>&nbsp;</div><div class="block-line"><div class="inline-block bg-yellow-300 block-match"><span class="block-text">123</span></div>&nbsp;</div><div class="block-line"><span class="block-text">ccc</span>&nbsp;</div><div class="block-line"><div class="inline-block bg-yellow-300 block-match"><span class="block-text">999</span></div>&nbsp;</div>`,
+    html: `<div class="block-line"><span class="block-text">aaa</span>&nbsp;</div><div class="block-line"><span class="block-text">bbb</span>&nbsp;</div><div class="block-line"><div class="block-match"><span class="block-text">123</span></div>&nbsp;</div><div class="block-line"><span class="block-text">ccc</span>&nbsp;</div><div class="block-line"><div class="block-match"><span class="block-text">999</span></div>&nbsp;</div>`,
   },
   multipleLinesMatchOverMultipleLines: {
     name: "multiple lines and a match over multiple lines",
@@ -132,7 +132,7 @@ asd`,
       { type: "matchEnd" },
       { type: "newLine" },
     ],
-    html: `<div class="block-line"><div class="inline-block bg-yellow-300 block-match"><span class="block-text">asd</span></div>&nbsp;</div><div class="block-line"><div class="inline-block bg-yellow-300 block-match"><span class="block-text">asd</span></div>&nbsp;</div>`,
+    html: `<div class="block-line"><div class="block-match"><span class="block-text">asd</span></div>&nbsp;</div><div class="block-line"><div class="block-match"><span class="block-text">asd</span></div>&nbsp;</div>`,
   },
   multipleEmptyLinesNoMatch: {
     name: "multiple empty lines and no match",

@@ -8,7 +8,7 @@ const BlockText: FC = ({ children = "" }) => (
 );
 
 const BlockMatch: FC = ({ children }) => (
-  <div className="inline-block bg-yellow-300 block-match">{children}</div>
+  <div className="block-match">{children}</div>
 );
 
 const BlockLine: FC = ({ children }) => (
