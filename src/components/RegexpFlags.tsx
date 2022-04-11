@@ -1,12 +1,15 @@
-import { FC } from "react";
 import { allFlags, flagNames } from "../constants";
 import { Flag, Flags } from "../types";
 
-const CheckBox: FC<{
+const CheckBox = ({
+  flag,
+  isToggled,
+  onToggle,
+}: {
   flag: Flag;
   isToggled: boolean;
   onToggle: (flag: Flag) => void;
-}> = ({ flag, isToggled, onToggle }) => {
+}) => {
   return (
     <div className="flex items-center pr-2">
       <input
@@ -22,10 +25,13 @@ const CheckBox: FC<{
   );
 };
 
-export const RegexpFlags: FC<{
+export const RegexpFlags = ({
+  flags,
+  onSetFlags,
+}: {
   flags: Flags;
   onSetFlags: (flags: Flags) => void;
-}> = ({ flags, onSetFlags }) => {
+}) => {
   const handleToggleFlag = (flag: Flag) =>
     onSetFlags({ ...flags, [flag]: !flags[flag] });
 

@@ -1,3 +1,4 @@
+import { expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { RegexpMatchText } from "./RegexpMatchText";
 import { matchTextFixtures } from "../fixtures/matchTextFixtures";
