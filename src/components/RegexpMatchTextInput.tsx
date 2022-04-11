@@ -1,10 +1,11 @@
-import { FC } from "react";
 import { Section } from "./Section";
 import { SectionHeader } from "./SectionHeader";
 
-export const RegexpMatchTextInput: FC<{
+export const RegexpMatchTextInput = ({
+  onChange,
+}: {
   onChange: (input: string) => void;
-}> = ({ onChange }) => {
+}) => {
   return (
     <Section>
       <SectionHeader>Text to match</SectionHeader>

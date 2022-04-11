@@ -1,16 +1,21 @@
-import { FC, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { flagsStringFromFlags } from "../functions/flags";
 import { Flags } from "../types";
 import { RegexpFlags } from "./RegexpFlags";
 import { Section } from "./Section";
 import { SectionHeader } from "./SectionHeader";
 
-export const RegexpInput: FC<{
+export const RegexpInput = ({
+  regexpFlags,
+  error,
+  onChange,
+  onSetFlags,
+}: {
   regexpFlags: Flags;
   error: string | undefined;
   onChange: (input: string) => void;
   onSetFlags: (flags: Flags) => void;
-}> = ({ regexpFlags, error, onChange, onSetFlags }) => {
+}) => {
   const inputEl = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {

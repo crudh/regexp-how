@@ -1,17 +1,17 @@
-import { FC, useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { MatchTextEntry } from "../types";
 import { Section } from "./Section";
 import { SectionHeader } from "./SectionHeader";
 
-const BlockText: FC = ({ children = "" }) => (
+const BlockText = ({ children = "" }: { children: ReactNode }) => (
   <span className="block-text">{children}</span>
 );
 
-const BlockMatch: FC = ({ children }) => (
+const BlockMatch = ({ children }: { children: ReactNode }) => (
   <div className="block-match">{children}</div>
 );
 
-const BlockLine: FC = ({ children }) => (
+const BlockLine = ({ children }: { children: ReactNode }) => (
   <div className="block-line">{children}&nbsp;</div>
 );
 
@@ -65,8 +65,10 @@ const MatchText = ({ entries }: { entries: MatchTextEntry[] }) => {
   );
 };
 
-export const RegexpMatchText: FC<{ matchTextEntries: MatchTextEntry[] }> = ({
+export const RegexpMatchText = ({
   matchTextEntries,
+}: {
+  matchTextEntries: MatchTextEntry[];
 }) => {
   const nrOfMatches = useMemo(
     () => matchTextEntries.filter(({ type }) => type === "matchStart"),

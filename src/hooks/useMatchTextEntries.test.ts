@@ -1,3 +1,4 @@
+import { expect, test } from "vitest";
 import { renderHook } from "@testing-library/react-hooks";
 import { matchTextFixtures } from "../fixtures/matchTextFixtures";
 import { useMatchTextEntries } from "./useMatchTextEntries";

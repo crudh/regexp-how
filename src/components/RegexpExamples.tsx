@@ -1,8 +1,7 @@
-import { FC } from "react";
 import { Section } from "./Section";
 import { SectionHeader } from "./SectionHeader";
 
-export const RegexpExamples: FC<{ examples: string[] }> = ({ examples }) => {
+export const RegexpExamples = ({ examples }: { examples: string[] }) => {
   if (examples.length === 0) return null;
 
   return (
