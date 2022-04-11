@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useTransition } from "react";
 import { flagsStringFromFlags } from "../functions/flags";
 import { Flags } from "../types";
 import { RegexpFlags } from "./RegexpFlags";
@@ -16,11 +16,16 @@ export const RegexpInput = ({
   onChange: (input: string) => void;
   onSetFlags: (flags: Flags) => void;
 }) => {
-  const inputEl = useRef<HTMLSpanElement | null>(null);
+  const [, startTransition] = useTransition();
+  const inputEl = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     inputEl?.current?.focus();
   }, []);
+
+  const handleChange = (event: FormEvent<HTMLElement>) => {
+    startTransition(() => onChange(event.currentTarget.textContent ?? ""));
+  };
 
   const flagsString = flagsStringFromFlags(regexpFlags);
 
@@ -39,7 +44,7 @@ export const RegexpInput = ({
             <span
               className="text-black bg-white outline-none min-w-[10px] break-all"
               ref={inputEl}
-              onInput={(e) => onChange(e.currentTarget.textContent ?? "")}
+              onInput={handleChange}
               contentEditable
             />
             <div className="flex items-end pl-1 font-bold text-gray-500">
