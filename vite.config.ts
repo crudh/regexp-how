@@ -1,10 +1,8 @@
+/// <reference types="vitest" />
 import { defineConfig, UserConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { InlineConfig } from "vitest";
 
-type Config = UserConfig & { test?: InlineConfig };
-
-const config: Config = {
+const config: UserConfig = {
   plugins: [react()],
   test: {
     globals: true,
